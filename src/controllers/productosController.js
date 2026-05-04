@@ -1,4 +1,4 @@
-const { Producto } = require('../../models'); // Importamos el modelo
+const { Producto } = require('../../models');
 
 // Obtener todos los productos
 const obtenerProductos = async (req, res) => {
@@ -10,11 +10,19 @@ const obtenerProductos = async (req, res) => {
   }
 };
 
-// Crear un nuevo producto
+// Crear un nuevo producto (con usuarioId)
 const crearProducto = async (req, res) => {
   try {
-    // req.body contiene los datos enviados por el usuario (nombre, marca, precio, stock)
-    const nuevoProducto = await Producto.create(req.body);
+    const { nombre, marca, precio, stock } = req.body;
+
+    const nuevoProducto = await Producto.create({
+      nombre,
+      marca,
+      precio,
+      stock,
+      usuarioId: req.usuario.id
+    });
+
     res.status(201).json(nuevoProducto);
   } catch (error) {
     res.status(500).json({ error: 'Error al crear el producto' });

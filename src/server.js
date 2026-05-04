@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const app = require('./app');
 const db = require('../models'); // Importamos los modelos de Sequelize
 

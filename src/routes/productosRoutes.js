@@ -1,10 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const productosController = require('../controllers/productosController');
+const authMiddleware = require('../middlewares/authMiddleware');
 
-// Definimos las rutas y las enlazamos con las funciones del controlador
+// Público (listar productos)
 router.get('/', productosController.obtenerProductos);
-router.post('/', productosController.crearProducto);
-router.delete('/:id', productosController.eliminarProducto);
+
+// Protegidos (solo con token)
+router.post('/', authMiddleware, productosController.crearProducto);
+router.delete('/:id', authMiddleware, productosController.eliminarProducto);
 
 module.exports = router;
